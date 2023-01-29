@@ -1,6 +1,5 @@
 // COMPONENT
-import { StatusBar } from 'expo-status-bar'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, StatusBar } from 'react-native'
 import { Loading } from './src/components/Loading'
 
 // STYLE
@@ -27,7 +26,11 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Hello World!</Text>
-      <StatusBar style='auto' />
+      <StatusBar
+        barStyle='light-content'
+        backgroundColor='transparent'
+        translucent
+      />
     </View>
   )
 }
