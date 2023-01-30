@@ -32,4 +32,52 @@ export async function appRoutes(app: FastifyInstance) {
       },
     })
   })
+
+  // get habits in day
+  app.get('/day', async (req) => {
+    const getDayParams = z.object({
+      date: z.coerce.date(),
+    })
+
+    // localhost.com/day?date=2023-01-28T03:00:00.000z
+    const { date } = getDayParams.parse(req.query)
+
+    // will set date to start of day with correct timezone (UTC-3)
+    const parsedDate = dayjs(date).startOf('day')
+
+    // will return a number equivalent to week day
+    const weekDay = parsedDate.get('day')
+
+    // find all possible habits where they are lower then or equal to the date requested and are the same weed day
+    const possibleHabits = await prisma.habit.findMany({
+      where: {
+        created_at: {
+          lte: date,
+        },
+        weekDays: {
+          some: {
+            week_day: weekDay,
+          },
+        },
+      },
+    })
+
+    // find habits completed on requested day
+    const day = await prisma.day.findUnique({
+      where: {
+        date: parsedDate.toDate(),
+      },
+      include: {
+        dayHabits: true,
+      },
+    })
+
+    // map to only return habit id
+    const completedHabits = day?.dayHabits.map((dayHabit) => dayHabit.habit_id)
+
+    return {
+      possibleHabits,
+      completedHabits,
+    }
+  })
 }
