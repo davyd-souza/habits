@@ -1,17 +1,14 @@
+// DEPENDENCY
 import Fastify from 'fastify'
 import cors from '@fastify/cors'
-import { PrismaClient } from '@prisma/client'
+
+// ROUTE
+import { appRoutes } from './routes'
 
 const app = Fastify()
-const prisma = new PrismaClient()
 
 app.register(cors)
-
-app.get('/', async () => {
-  const habit = await prisma.habit.findMany()
-
-  return habit
-})
+app.register(appRoutes)
 
 app
   .listen({
