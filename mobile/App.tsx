@@ -1,3 +1,6 @@
+// DEPENDENCY
+import './src/lib/dayjs'
+
 // COMPONENT
 import { StatusBar } from 'react-native'
 import { Loading } from './src/components/Loading'
