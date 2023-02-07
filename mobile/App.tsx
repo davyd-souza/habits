@@ -1,6 +1,7 @@
 // COMPONENT
-import { StyleSheet, Text, View, StatusBar } from 'react-native'
+import { StatusBar } from 'react-native'
 import { Loading } from './src/components/Loading'
+import { Home } from './src/screens/Home'
 
 // STYLE
 import {
@@ -24,28 +25,13 @@ export default function App() {
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Hello World!</Text>
+    <>
+      <Home />
       <StatusBar
         barStyle='light-content'
         backgroundColor='transparent'
         translucent
       />
-    </View>
+    </>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#09090a',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  text: {
-    color: '#fafafa',
-    fontSize: 32,
-    fontWeight: '500',
-    fontFamily: 'Inter_600SemiBold',
-  },
-})
