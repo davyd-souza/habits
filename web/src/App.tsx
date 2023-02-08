@@ -1,13 +1,20 @@
 // DEPENDENCY
 import React from 'react'
 
+// COMPONENT
+import { Header } from './components/Header'
+import { SummaryTable } from './components/SummaryTable'
+
 // STYLE
 import './styles/global.css'
 
 export function App() {
   return (
-    <div className='bg-neutral-800 min-h-screen text-neutral-100'>
-      <h1>Habit</h1>
+    <div className='w-screen min-h-screen grid place-items-center'>
+      <div className='w-full max-w-5xl px-6 grid gap-16'>
+        <Header />
+        <SummaryTable />
+      </div>
     </div>
   )
 }
