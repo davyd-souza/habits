@@ -1,4 +1,4 @@
-// DEPENDENCY
+// COMPONENT
 import { View, Text } from 'react-native'
 
 export function NewHabit(): JSX.Element {
