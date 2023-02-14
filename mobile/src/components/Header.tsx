@@ -1,3 +1,6 @@
+// DEPENDENCY
+import { useNavigation } from '@react-navigation/native'
+
 // COMPONENT
 import { View, TouchableOpacity, Text } from 'react-native'
 
@@ -9,6 +12,8 @@ import { MaterialIcons } from '@expo/vector-icons'
 import Logo from '../assets/logo.svg'
 
 export function Header(): JSX.Element {
+  const { navigate } = useNavigation()
+
   return (
     <View className='w-full flex-row items-center justify-between'>
       <Logo />
@@ -16,6 +21,7 @@ export function Header(): JSX.Element {
       <TouchableOpacity
         activeOpacity={0.7}
         className='flex-row items-center px-4 py-3 border border-violet-500 rounded-lg'
+        onPress={() => navigate('newhabit')}
       >
         <MaterialIcons name='add' color={colors.violet[500]} size={20} />
 
