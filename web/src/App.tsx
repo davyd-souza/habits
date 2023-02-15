@@ -1,5 +1,6 @@
 // DEPENDENCY
 import React from 'react'
+import './lib/dayjs'
 
 // COMPONENT
 import { Header } from './components/Header'
