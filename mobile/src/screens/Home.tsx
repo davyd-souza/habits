@@ -2,20 +2,37 @@
 import { useNavigation } from '@react-navigation/native'
 
 // COMPONENT
-import { Text, View, ScrollView } from 'react-native'
+import { Text, View, ScrollView, Alert } from 'react-native'
 import { Header } from '../components/Header'
+import { Loading } from '../components/Loading'
 import { HabitDay, DAY_SIZE } from '../components/HabitDay'
 
 // UTIL
 import { generateRangeDatesFromYearStart } from '../utils/generate-range-between-dates'
 
+// HOOKS
+import { useFetch } from '../hooks/useFetch'
+
+// TYPE
+type ISummary = Array<{
+  id: string
+  date: string
+  amount: number
+  completed: number
+}>
+
 const weekDays = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S']
 const datesFromYearStart = generateRangeDatesFromYearStart()
-const minimunSummaryDatesSize = 18 * 5
+const minimunSummaryDatesSize = 18 * 5 // 90
 const amountOfDaysToFill = minimunSummaryDatesSize - datesFromYearStart.length
 
 export function Home(): JSX.Element {
   const { navigate } = useNavigation()
+
+  const { response: summary, error, isLoading } = useFetch<ISummary>('/summary')
+
+  if (error) Alert.alert('Ops', 'Não foi possível pegar o sumário das tarefas')
+  if (isLoading) return <Loading />
 
   return (
     <View className='flex-1 bg-background px-8 pt-16'>
@@ -38,12 +55,14 @@ export function Home(): JSX.Element {
         contentContainerStyle={{ paddingBottom: 100 }}
       >
         <View className='flex-row flex-wrap'>
-          {datesFromYearStart.map((date) => (
-            <HabitDay
-              key={date.toISOString()}
-              onPress={() => navigate('habit', { date: date.toISOString() })}
-            />
-          ))}
+          {datesFromYearStart.map((date) => {
+            return (
+              <HabitDay
+                key={date.toISOString()}
+                onPress={() => navigate('habit', { date: date.toISOString() })}
+              />
+            )
+          })}
 
           {amountOfDaysToFill > 0 &&
             Array.from({ length: amountOfDaysToFill }).map((_, i) => (
