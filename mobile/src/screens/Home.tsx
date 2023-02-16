@@ -1,5 +1,6 @@
 // DEPENDENCY
 import { useNavigation } from '@react-navigation/native'
+import dayjs from 'dayjs'
 
 // COMPONENT
 import { Text, View, ScrollView, Alert } from 'react-native'
@@ -56,9 +57,16 @@ export function Home(): JSX.Element {
       >
         <View className='flex-row flex-wrap'>
           {datesFromYearStart.map((date) => {
+            const dayWithHabits = summary?.find((day) => {
+              return dayjs(date).isSame(day.date, 'day')
+            })
+
             return (
               <HabitDay
                 key={date.toISOString()}
+                date={date}
+                amount={dayWithHabits?.amount}
+                completed={dayWithHabits?.completed}
                 onPress={() => navigate('habit', { date: date.toISOString() })}
               />
             )
