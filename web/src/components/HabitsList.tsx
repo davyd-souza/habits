@@ -75,7 +75,7 @@ export function HabitsList({
             key={habit.id}
             onCheckedChange={() => handleToggleHabit(habit.id)}
             defaultChecked={habitsInfo.completedHabits.includes(habit.id)}
-            // disabled={isDateInPast} // ENABLE THIS LINE IF YOU WANT TO DENY USER TO COMPLETE HABITS FROM PAST
+            disabled={isDateInPast} // ENABLE THIS LINE IF YOU WANT TO DENY USER TO COMPLETE HABITS FROM PAST
             className='flex items-center gap-3 group'
           >
             <div className='h-8 w-8 rounded-lg flex items-center justify-center bg-zinc-900 border-2 border-zinc-800 group-data-[state=checked]:bg-green-500 group-data-[state=checked]:border-green-500'>
