@@ -76,15 +76,15 @@ export function HabitsList({
             onCheckedChange={() => handleToggleHabit(habit.id)}
             defaultChecked={habitsInfo.completedHabits.includes(habit.id)}
             disabled={isDateInPast} // ENABLE THIS LINE IF YOU WANT TO DENY USER TO COMPLETE HABITS FROM PAST
-            className='flex items-center gap-3 group'
+            className='flex items-center gap-3 group focus:outline-none disabled:cursor-not-allowed'
           >
-            <div className='h-8 w-8 rounded-lg flex items-center justify-center bg-zinc-900 border-2 border-zinc-800 group-data-[state=checked]:bg-green-500 group-data-[state=checked]:border-green-500'>
+            <div className='h-8 w-8 rounded-lg flex items-center justify-center bg-zinc-900 border-2 border-zinc-800 group-data-[state=checked]:bg-green-500 group-data-[state=checked]:border-green-500 transition-colors group-focus:ring-2 ring-violet-700 ring-offset-2 ring-offset-background'>
               <Checkbox.Indicator>
                 <Check size={20} className='text-white' />
               </Checkbox.Indicator>
             </div>
 
-            <span className='font-semibold text-xl text-white leading-tight group-data-[state=checked]:line-through group-data-[state=checked]:text-zinc-400'>
+            <span className='font-semibold text-xl text-white leading-tight group-data-[state=checked]:line-through group-data-[state=checked]:text-zinc-400 group-disabled:text-zinc-500'>
               {habit.title}
             </span>
           </Checkbox.Root>
