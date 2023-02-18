@@ -1,3 +1,6 @@
+// DEPENDENCY
+import clsx from 'clsx'
+
 // COMPONENT
 import {
   Text,
@@ -24,7 +27,7 @@ export function Checkbox({
   return (
     <TouchableOpacity
       activeOpacity={0.7}
-      className='flex-row mb-2 items-center'
+      className='flex-row mb-2 items-center text-white'
       {...props}
     >
       {checked ? (
@@ -34,7 +37,13 @@ export function Checkbox({
       ) : (
         <View className='w-8 h-8 bg-zinc-900 rounded-lg'></View>
       )}
-      <Text className='text-white text-base ml-3'>{title}</Text>
+      <Text
+        className={clsx(`text-white text-base ml-3`, {
+          'text-zinc-500': props.disabled,
+        })}
+      >
+        {title}
+      </Text>
     </TouchableOpacity>
   )
 }
