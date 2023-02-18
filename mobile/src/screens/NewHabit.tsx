@@ -1,5 +1,5 @@
 // DEPENDENCY
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 
 // COMPONENT
 import {
@@ -8,6 +8,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  Alert,
 } from 'react-native'
 import { BackButton } from '../components/BackButton'
 import { Checkbox } from '../components/Checkbox'
@@ -15,6 +16,7 @@ import { Checkbox } from '../components/Checkbox'
 // STYLE
 import { Feather } from '@expo/vector-icons'
 import colors from 'tailwindcss/colors'
+import { api } from '../lib/axios'
 
 // UTIL
 const availableWeekDays = [
@@ -29,6 +31,9 @@ const availableWeekDays = [
 
 export function NewHabit(): JSX.Element {
   const [weekDays, setWeekDays] = useState<number[]>([])
+  const [title, setTitle] = useState('')
+
+  const inputRef = useRef<TextInput>(null)
 
   const handleToggleWeekDay = (weekDayIndex: number): void => {
     if (weekDays.includes(weekDayIndex))
@@ -36,6 +41,29 @@ export function NewHabit(): JSX.Element {
         prevState.filter((weekDays) => weekDays !== weekDayIndex)
       )
     else setWeekDays((prevState) => [...prevState, weekDayIndex])
+  }
+
+  async function handleCreateNewHabit() {
+    try {
+      if (!title.trim() || weekDays.length === 0) {
+        Alert.alert(
+          'Novo hábito',
+          'Informe o nome do hábito e escolha a periodicidade'
+        )
+      }
+
+      await api.post('/habits', { title, weekDays })
+
+      setTitle('')
+      setWeekDays([])
+
+      Alert.alert('Novo hábito', 'Hábito criado com sucesso!')
+    } catch (err) {
+      console.log(err)
+      Alert.alert('Ops', 'Não foi possível criar o novo hábito')
+    } finally {
+      inputRef?.current?.focus()
+    }
   }
 
   return (
@@ -58,6 +86,9 @@ export function NewHabit(): JSX.Element {
           className='h-12 pl-4 rounded-lg mt-3 bg-zinc-900 text-white border-2 border-zinc-800 focus:border-green-600'
           placeholder='ex.: Exercícios, dormir bem, etc'
           placeholderTextColor={colors.zinc[400]}
+          onChangeText={setTitle}
+          value={title}
+          ref={inputRef}
         />
 
         <Text className='font-semibold mt-4 mb-3 text-white text-base'>
@@ -76,6 +107,7 @@ export function NewHabit(): JSX.Element {
         <TouchableOpacity
           activeOpacity={0.7}
           className='w-full h-14 flex-row items-center justify-center bg-green-600 rounded-md mt-6'
+          onPress={handleCreateNewHabit}
         >
           <Feather name='check' size={20} color={colors.white} />
           <Text className='font-semibold text-base text-white ml-2'>
