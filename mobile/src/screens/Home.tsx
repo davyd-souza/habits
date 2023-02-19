@@ -1,5 +1,6 @@
 // DEPENDENCY
-import { useNavigation } from '@react-navigation/native'
+import { useCallback } from 'react'
+import { useNavigation, useFocusEffect } from '@react-navigation/native'
 import dayjs from 'dayjs'
 
 // COMPONENT
@@ -30,9 +31,19 @@ const amountOfDaysToFill = minimunSummaryDatesSize - datesFromYearStart.length
 export function Home(): JSX.Element {
   const { navigate } = useNavigation()
 
-  const { response: summary, error, isLoading } = useFetch<ISummary>('/summary')
+  const {
+    response: summary,
+    error,
+    isLoading,
+    refetch,
+  } = useFetch<ISummary>('/summary')
 
-  if (error) Alert.alert('Ops', 'Não foi possível pegar o sumário das tarefas')
+  useFocusEffect(
+    useCallback(() => {
+      refetch()
+    }, [])
+  )
+
   if (isLoading) return <Loading />
 
   return (
